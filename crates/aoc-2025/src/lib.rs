@@ -1,4 +1,4 @@
-use crate::aoc::DailySolutions;
+use aoc_common::aoc::DailySolutions;
 
 mod day01;
 mod day02;

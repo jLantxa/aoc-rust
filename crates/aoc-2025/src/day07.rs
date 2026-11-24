@@ -1,7 +1,7 @@
 use anyhow::{Result, anyhow};
 use std::collections::HashSet;
 
-use crate::utils::grid::Grid;
+use aoc_common::utils::grid::Grid;
 
 const SPLITTER: char = '^';
 const START: char = 'S';

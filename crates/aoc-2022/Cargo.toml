@@ -1,0 +1,12 @@
+[package]
+name = "aoc-2022"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+aoc-common = { path = "../aoc-common" }
+anyhow = "1.0.105"
+regex = "1.13.2"
+
+[dev-dependencies]
+rstest = "0.29.0"

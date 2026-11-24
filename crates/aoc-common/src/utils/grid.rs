@@ -5,7 +5,7 @@ use std::ops::{Index, IndexMut};
 
 /// Defines the 8 cardinal and intercardinal directions (x_delta, y_delta).
 /// Often used for pathfinding or neighbor checks.
-pub(crate) const DIRECTIONS_8: [(isize, isize); 8] = [
+pub const DIRECTIONS_8: [(isize, isize); 8] = [
     // Top row
     (-1, -1),
     (0, -1),
@@ -20,7 +20,7 @@ pub(crate) const DIRECTIONS_8: [(isize, isize); 8] = [
 ];
 
 /// Defines the 4 cardinal directions (x_delta, y_delta).
-pub(crate) const DIRECTIONS_4: [(isize, isize); 4] = [
+pub const DIRECTIONS_4: [(isize, isize); 4] = [
     (0, -1), // Up
     (0, 1),  // Down
     (-1, 0), // Left
@@ -30,7 +30,7 @@ pub(crate) const DIRECTIONS_4: [(isize, isize); 4] = [
 /// A general-purpose 2D grid structure backed by a single `Vec<T>` in row-major order.
 /// Coordinates are accessed as `(column, row)` or `(x, y)`.
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub(crate) struct Grid<T: Default + Copy> {
+pub struct Grid<T: Default + Copy> {
     width: usize,
     height: usize,
     data: Vec<T>,
@@ -38,7 +38,7 @@ pub(crate) struct Grid<T: Default + Copy> {
 
 /// An iterator over the (i, j) coordinates of a Grid, yielding `(column, row)`.
 #[derive(Debug, Clone)]
-pub(crate) struct GridCoordsIterator {
+pub struct GridCoordsIterator {
     width: usize,
     height: usize,
     // The current column index (i)
@@ -82,7 +82,7 @@ impl Iterator for GridCoordsIterator {
 impl std::iter::ExactSizeIterator for GridCoordsIterator {}
 
 /// An iterator over the (i, j) coordinates and immutable references (`&T`) of all elements.
-pub(crate) struct GridIterator<'a, T> {
+pub struct GridIterator<'a, T> {
     width: usize,
     // Iterates over the coordinates
     coords_iter: GridCoordsIterator,
@@ -105,7 +105,7 @@ impl<'a, T> Iterator for GridIterator<'a, T> {
 }
 
 /// An iterator over the (i, j) coordinates and mutable references (`&mut T`) of all elements.
-pub(crate) struct GridMutIterator<'a, T> {
+pub struct GridMutIterator<'a, T> {
     width: usize,
     // Iterates over the coordinates
     coords_iter: GridCoordsIterator,

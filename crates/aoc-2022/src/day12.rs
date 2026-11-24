@@ -2,7 +2,7 @@ use std::collections::{HashSet, VecDeque};
 
 use anyhow::{Result, bail};
 
-use crate::utils::grid::Grid;
+use aoc_common::utils::grid::Grid;
 
 type Height = i8;
 type Point = (usize, usize);

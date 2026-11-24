@@ -2,7 +2,7 @@ use std::collections::{HashSet, VecDeque};
 
 use anyhow::Result;
 
-use crate::utils::grid::Grid;
+use aoc_common::utils::grid::Grid;
 
 pub(crate) fn part1(input: &str) -> Result<String> {
     let grid = Grid::from_input(input)?;

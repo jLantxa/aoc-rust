@@ -6,10 +6,12 @@ use std::{
 use anyhow::{Context, Result};
 use colored::Colorize;
 
-use crate::{year2022, year2025};
+pub type SolutionFn = fn(&str) -> Result<String>;
+pub type DailySolutions = (SolutionFn, SolutionFn);
 
-pub(crate) type SolutionFn = fn(&str) -> Result<String>;
-pub(crate) type DailySolutions = (SolutionFn, SolutionFn);
+/// A year crate provides one function with this signature: it returns both
+/// parts of a day's solution, or `None` for days that are not implemented.
+pub type SolutionProvider = fn(u8) -> Option<DailySolutions>;
 
 fn load_input(path: &Path) -> Result<String> {
     std::fs::read_to_string(path).with_context(|| format!("Could not load input from {path:?}"))
@@ -21,14 +23,6 @@ fn load_input_for_day(year: &str, day: u8) -> Result<String> {
         .join(year)
         .join(format!("day{day:02}.txt"));
     load_input(&input_path)
-}
-
-fn get_solution(year: &str, day: u8) -> Option<DailySolutions> {
-    match year {
-        "2022" => year2022::get_solution(day),
-        "2025" => year2025::get_solution(day),
-        _ => None,
-    }
 }
 
 /// Executes a solution part, times it, and prints the result.
@@ -54,11 +48,11 @@ fn run_solution_result(part: u8, func: impl FnOnce() -> Result<String>) -> Durat
     elapsed
 }
 
-pub(crate) fn run_all_yearly_solutions(year: &str) {
+pub fn run_all_yearly_solutions(year: &str, get_solution: SolutionProvider) {
     let mut elapsed = Duration::ZERO;
 
     for day in 1..=25 {
-        let solutions = match get_solution(year, day) {
+        let solutions = match get_solution(day) {
             Some(sols) => sols,
             None => continue, // Skip if no solution for the day
         };
@@ -80,9 +74,14 @@ pub(crate) fn run_all_yearly_solutions(year: &str) {
     println!("Total time: {}", format!("{elapsed:?}").bold().cyan());
 }
 
-pub(crate) fn run_single_solution(year: &str, day: u8, part: Option<u8>) -> Result<()> {
+pub fn run_single_solution(
+    year: &str,
+    day: u8,
+    part: Option<u8>,
+    get_solution: SolutionProvider,
+) -> Result<()> {
     let solution =
-        get_solution(year, day).with_context(|| format!("Solution for day {day} not found"))?;
+        get_solution(day).with_context(|| format!("Solution for day {day} not found"))?;
     let input =
         load_input_for_day(year, day).with_context(|| format!("Input for day {day} not found"))?;
 
